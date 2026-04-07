@@ -44,6 +44,10 @@ This filter will:
 
 ## Changelog
 
+### 1.0.1
+
+- Fixed issue with JSON formatter truncating data.
+
 ### 1.0.0
 
 - Initial release.

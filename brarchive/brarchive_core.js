@@ -2,7 +2,6 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs").promises;
 const { TextDecoder } = require("util");
-const JSON5 = require("json5");
 
 // brarchive format constants
 const MAGIC = 0x267052a0b125277dn;
@@ -167,19 +166,21 @@ function serializeBrarchive(entries) {
 }
 
 /**
- * Minifies JSON content for archive storage. Non-JSON or parse failures return original.
- * @param {string} fileName
- * @param {string} contents
- * @param {boolean} minify
- * @returns {string}
+ * Minifies JSON content by removing comments and extraneous whitespace.
+ * Non-JSON files or unflagged requests return the original string.
+ * @param {string} fileName The name of the file to check.
+ * @param {string} contents The raw text content of the file.
+ * @param {boolean} minify Flag to enable or disable minification.
+ * @returns {string} The minified string or original content.
  */
 const maybeMinifyContent = (fileName, contents, minify) => {
-  if (!minify) return contents;
-  if (path.extname(fileName).toLowerCase() !== ".json") return contents;
+  if (!minify || !fileName.toLowerCase().endsWith(".json")) {
+    return contents;
+  }
 
   try {
-    const parsed = JSON5.parse(contents);
-    return JSON.stringify(parsed);
+    const tokenizer = /("(?:[^"\\]|\\.)*")|(?:\/\/[^\n]*|\/\*[\s\S]*?\*\/|\s+)/g;
+    return contents.replace(tokenizer, (_, stringLiteral) => stringLiteral || "");
   } catch {
     return contents;
   }
