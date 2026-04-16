@@ -4,7 +4,7 @@ This filter archives eligible UTF-8 text directories into `.brarchive` format.
 
 ## Getting the Filter
 
-Install with: `regolith install brarchive`. After that, you can place the filter into one of your profiles.
+Install with `regolith install github.com/SprightGamesMC/regolith-filters/brarchive`, then add the filter to the profile that exports your pack.
 
 ```json
 {
@@ -33,7 +33,7 @@ This filter will:
 | `mode`  | string  | "replace" | "replace" removes originals after archiving. "keep_both" keeps both. |
 | `minify`| boolean | true      | Minifies JSON content stored in .brarchive files.                    |
 
-#### Default Settings
+### Default Settings
 
 ```json
 {
@@ -43,6 +43,11 @@ This filter will:
 ```
 
 ## Changelog
+
+### 1.0.2
+
+- Added `loot_tables` folder to `BANNED_ROOT_DIRECTORY_SET`
+- Refactored filter
 
 ### 1.0.1
 

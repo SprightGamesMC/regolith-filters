@@ -5,10 +5,7 @@
   "properties": {
     "mode": {
       "type": "string",
-      "enum": [
-        "replace",
-        "keep_both"
-      ],
+      "enum": ["replace", "keep_both"],
       "default": "replace",
       "description": "'replace' removes originals after archiving. 'keep_both' keeps archives and originals."
     },

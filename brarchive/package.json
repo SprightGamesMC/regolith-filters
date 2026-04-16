@@ -2,6 +2,6 @@
   "name": "brarchive",
   "description": "Regolith filter for archiving directories into .brarchive format",
   "license": "MIT",
-  "version": "1.0.1",
-  "main": "./brarchive.js"
+  "version": "1.0.2",
+  "main": "./Main.js"
 }
