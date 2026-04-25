@@ -1,0 +1,13 @@
+{
+  "name": "tscompile",
+  "version": "1.0.0",
+  "description": "Regolith filter for compiling TypeScript in the behavior pack",
+  "license": "MIT",
+  "main": "./Main.js",
+  "dependencies": {
+    "esbuild": "^0.28.0",
+    "glob": "^13.0.6",
+    "jsonc-parser": "^3.3.1",
+    "source-map": "^0.7.6"
+  }
+}
