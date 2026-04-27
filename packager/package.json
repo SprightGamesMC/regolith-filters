@@ -1,0 +1,16 @@
+{
+  "name": "packager",
+  "version": "2.0.0",
+  "author": "Spright",
+  "description": "Regolith filter for packaging validated Minecraft Marketplace submissions",
+  "license": "MIT",
+  "main": "./Main.js",
+  "overrides": {
+    "glob": "^13.0.6"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "jsonc-parser": "^3.3.1",
+    "sharp": "^0.34.2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Packages Minecraft Marketplace submissions into validated game files and submission archives.",
+  "filters": [
+    {
+      "name": "Package Marketplace content",
+      "runWith": "nodejs",
+      "script": "./Main.js"
+    }
+  ]
+}
