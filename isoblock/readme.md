@@ -59,6 +59,10 @@ The filter:
 
 ## Changelog
 
+### 1.0.2
+
+- Replaced the unmaintained `gl` package with the maintained `@kmamal/gl` fork to remove deprecated dependencies during install.
+
 ### 1.0.1
 
 - Refactored filter.

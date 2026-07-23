@@ -1,6 +1,6 @@
 {
     "name": "isoblock",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Spright",
     "description": "Regolith filter for generating isometric images of blocks in the behavior pack",
     "license": "MIT",
@@ -10,9 +10,12 @@
         "watch": "tsc --watch",
         "test": "node --import tsx --test \"tests/**/*.test.ts\""
     },
+    "overrides": {
+        "glob": "^13.0.0"
+    },
     "dependencies": {
         "comment-json": "^4.6.2",
-        "gl": "^8.1.6",
+        "gl": "npm:@kmamal/gl@^9.1.0",
         "pngjs": "^7.0.0",
         "three": "^0.125.0"
     },
