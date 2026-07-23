@@ -1,254 +1,254 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "packager",
-  "type": "object",
-  "properties": {
-    "content_name": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": ".*[A-Za-z0-9].*"
-    },
-    "content_acronym": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": "^[A-Za-z0-9_-]+$"
-    },
-    "content_type": {
-      "type": "string",
-      "enum": [
-        "addon",
-        "world",
-        "texture_pack",
-        "skin_pack"
-      ]
-    },
-    "content_version": {
-      "type": "array",
-      "items": {
-        "type": "integer",
-        "minimum": 0
-      },
-      "minItems": 3,
-      "maxItems": 3
-    },
-    "is_standalone_rp": {
-      "type": "boolean"
-    },
-    "min_engine_version": {
-      "type": "array",
-      "items": {
-        "type": "integer",
-        "minimum": 0
-      },
-      "minItems": 3,
-      "maxItems": 3
-    },
-    "paths": {
-      "type": "object",
-      "properties": {
-        "build_path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "marketing_art_path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "store_art_path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "world_path": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "minLength": 1
-        },
-        "skin_pack_path": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "minLength": 1
-        }
-      },
-      "required": [
-        "build_path",
-        "marketing_art_path",
-        "store_art_path"
-      ],
-      "additionalProperties": false
-    },
-    "store_art": {
-      "type": "object",
-      "properties": {
-        "key_art": {
-          "type": "string",
-          "minLength": 1
-        },
-        "panorama": {
-          "type": "string",
-          "minLength": 1
-        },
-        "pack_icon": {
-          "type": "string",
-          "minLength": 1
-        },
-        "screenshots": {
-          "type": "array",
-          "items": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "packager",
+    "type": "object",
+    "properties": {
+        "content_name": {
             "type": "string",
-            "minLength": 1
-          },
-          "minItems": 1
-        }
-      },
-      "additionalProperties": false
-    },
-    "marketing_art": {
-      "type": "object",
-      "properties": {
-        "key_art": {
-          "type": "string",
-          "minLength": 1
+            "minLength": 1,
+            "pattern": ".*[A-Za-z0-9].*"
         },
-        "partner_art": {
-          "type": "string",
-          "minLength": 1
-        },
-        "screenshots": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "minItems": 1
-        }
-      },
-      "required": [
-        "key_art",
-        "partner_art"
-      ],
-      "additionalProperties": false
-    }
-  },
-  "required": [
-    "content_name",
-    "content_type",
-    "content_version",
-    "paths",
-    "store_art",
-    "marketing_art"
-  ],
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "content_type": {
-            "const": "world"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "paths": {
-            "properties": {
-              "world_path": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "required": [
-              "world_path"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "content_type": {
-            "const": "skin_pack"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "paths": {
-            "properties": {
-              "skin_pack_path": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "required": [
-              "skin_pack_path"
-            ]
-          },
-          "store_art": {
-            "required": [
-              "key_art"
-            ]
-          },
-          "marketing_art": {
-            "required": [
-              "key_art",
-              "partner_art"
-            ]
-          }
-        }
-      },
-      "else": {
-        "properties": {
-          "content_acronym": {
+        "content_acronym": {
             "type": "string",
             "minLength": 1,
             "pattern": "^[A-Za-z0-9_-]+$"
-          },
-          "min_engine_version": {
+        },
+        "content_type": {
+            "type": "string",
+            "enum": [
+                "addon",
+                "world",
+                "texture_pack",
+                "skin_pack"
+            ]
+        },
+        "content_version": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "minimum": 0
+                "type": "integer",
+                "minimum": 0
             },
             "minItems": 3,
             "maxItems": 3
-          },
-          "store_art": {
-            "required": [
-              "key_art",
-              "screenshots",
-              "panorama",
-              "pack_icon"
-            ],
-            "properties": {
-              "screenshots": {
-                "minItems": 5,
-                "maxItems": 5
-              }
-            }
-          },
-          "marketing_art": {
-            "required": [
-              "key_art",
-              "partner_art",
-              "screenshots"
-            ],
-            "properties": {
-              "screenshots": {
-                "minItems": 5
-              }
-            }
-          }
         },
-        "required": [
-          "content_acronym",
-          "min_engine_version"
-        ]
-      }
-    }
-  ],
-  "additionalProperties": false
+        "is_standalone_rp": {
+            "type": "boolean"
+        },
+        "min_engine_version": {
+            "type": "array",
+            "items": {
+                "type": "integer",
+                "minimum": 0
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
+        "paths": {
+            "type": "object",
+            "properties": {
+                "build_path": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "marketing_art_path": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "store_art_path": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "world_path": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "minLength": 1
+                },
+                "skin_pack_path": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "build_path",
+                "marketing_art_path",
+                "store_art_path"
+            ],
+            "additionalProperties": false
+        },
+        "store_art": {
+            "type": "object",
+            "properties": {
+                "key_art": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "panorama": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "pack_icon": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "screenshots": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "minItems": 1
+                }
+            },
+            "additionalProperties": false
+        },
+        "marketing_art": {
+            "type": "object",
+            "properties": {
+                "key_art": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "partner_art": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "screenshots": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "key_art",
+                "partner_art"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "content_name",
+        "content_type",
+        "content_version",
+        "paths",
+        "store_art",
+        "marketing_art"
+    ],
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "content_type": {
+                        "const": "world"
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "paths": {
+                        "properties": {
+                            "world_path": {
+                                "type": "string",
+                                "minLength": 1
+                            }
+                        },
+                        "required": [
+                            "world_path"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "content_type": {
+                        "const": "skin_pack"
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "paths": {
+                        "properties": {
+                            "skin_pack_path": {
+                                "type": "string",
+                                "minLength": 1
+                            }
+                        },
+                        "required": [
+                            "skin_pack_path"
+                        ]
+                    },
+                    "store_art": {
+                        "required": [
+                            "key_art"
+                        ]
+                    },
+                    "marketing_art": {
+                        "required": [
+                            "key_art",
+                            "partner_art"
+                        ]
+                    }
+                }
+            },
+            "else": {
+                "properties": {
+                    "content_acronym": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$"
+                    },
+                    "min_engine_version": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                    },
+                    "store_art": {
+                        "required": [
+                            "key_art",
+                            "screenshots",
+                            "panorama",
+                            "pack_icon"
+                        ],
+                        "properties": {
+                            "screenshots": {
+                                "minItems": 5,
+                                "maxItems": 5
+                            }
+                        }
+                    },
+                    "marketing_art": {
+                        "required": [
+                            "key_art",
+                            "partner_art",
+                            "screenshots"
+                        ],
+                        "properties": {
+                            "screenshots": {
+                                "minItems": 5
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "content_acronym",
+                    "min_engine_version"
+                ]
+            }
+        }
+    ],
+    "additionalProperties": false
 }

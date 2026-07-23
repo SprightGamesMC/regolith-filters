@@ -1,0 +1,5 @@
+node_modules
+dest
+build
+.regolith
+package-lock.json

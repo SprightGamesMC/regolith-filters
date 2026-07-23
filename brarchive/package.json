@@ -1,7 +1,20 @@
 {
-  "name": "brarchive",
-  "description": "Regolith filter for archiving directories into .brarchive format",
-  "license": "MIT",
-  "version": "1.0.2",
-  "main": "./Main.js"
+    "name": "brarchive",
+    "version": "1.0.3",
+    "author": "Spright",
+    "description": "Regolith filter for archiving directories into .brarchive format",
+    "license": "MIT",
+    "main": "./dest/Main.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch",
+        "test": "node --import tsx --test \"tests/**/*.test.ts\""
+    },
+    "dependencies": {
+        "comment-json": "^4.6.2"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.0",
+        "typescript": "^5.7.0"
+    }
 }

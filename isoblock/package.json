@@ -1,0 +1,25 @@
+{
+    "name": "isoblock",
+    "version": "1.0.1",
+    "author": "Spright",
+    "description": "Regolith filter for generating isometric images of blocks in the behavior pack",
+    "license": "MIT",
+    "main": "./dest/Main.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch",
+        "test": "node --import tsx --test \"tests/**/*.test.ts\""
+    },
+    "dependencies": {
+        "comment-json": "^4.6.2",
+        "gl": "^8.1.6",
+        "pngjs": "^7.0.0",
+        "three": "^0.125.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.0",
+        "@types/pngjs": "^6.0.5",
+        "@types/three": "^0.125.3",
+        "typescript": "^5.7.0"
+    }
+}

@@ -1,10 +1,11 @@
 {
-  "description": "Compiles behavior pack TypeScript into JavaScript for Minecraft.",
-  "filters": [
-    {
-      "name": "Compile TypeScript in the behavior pack",
-      "runWith": "nodejs",
-      "script": "./Main.js"
-    }
-  ]
+    "description": "Compiles behavior pack TypeScript into JavaScript for Minecraft.",
+    "filters": [
+        {
+            "name": "Compile TypeScript in the behavior pack",
+            "runWith": "nodejs",
+            "script": "./dest/Main.js",
+            "requirements": "."
+        }
+    ]
 }

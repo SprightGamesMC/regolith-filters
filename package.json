@@ -1,0 +1,26 @@
+{
+    "name": "regolith-filters",
+    "version": "1.0.0",
+    "description": "Shared tooling and formatting for the Spright Regolith filters.",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "build": "npm run build --prefix brarchive && npm run build --prefix example && npm run build --prefix isoblock && npm run build --prefix packager && npm run build --prefix tscompile",
+        "fmt": "prettier --write . && eslint . --fix",
+        "lint": "prettier --check . && eslint .",
+        "test": "node --import tsx --test \"**/tests/**/*.test.ts\"",
+        "update": "npx npm-check-updates -u && npm install --legacy-peer-deps && npm update"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/node": "^26.1.1",
+        "eslint": "^10.0.3",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.5",
+        "globals": "^17.4.0",
+        "prettier": "^3.8.1",
+        "tsx": "^4.23.1",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.57.0"
+    }
+}

@@ -1,131 +1,131 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "tscompile",
-  "type": "object",
-  "properties": {
-    "buildOptions": {
-      "type": "object",
-      "default": {
-        "bundle": true,
-        "minify": true
-      },
-      "additionalProperties": true,
-      "properties": {
-        "entryPoints": false
-      },
-      "description": "Additional esbuild build options. The filter defaults target to ES2020 and format to ESM. Bundled builds use sourceDir/sourceEntry as the only entry point. Non-bundled builds compile all TypeScript and JavaScript source files under sourceDir. CommonJS syntax and json imports are only supported when bundling is enabled, and non-bundled usage causes an error."
-    },
-    "modules": {
-      "type": "array",
-      "default": [
-        "@minecraft/server@2.0.0"
-      ],
-      "description": "Scripting module dependencies to inject into the manifest and exclude from bundling.",
-      "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "pattern": "^@minecraft\\/[A-Za-z0-9-]+@(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?$"
-      }
-    },
-    "moduleUUID": {
-      "type": "string",
-      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
-      "description": "UUID to place in the behavior pack scripting module and debugger launch config."
-    },
-    "sourceDir": {
-      "type": "string",
-      "default": "BP/scripts/src",
-      "description": "Project-relative source directory resolved from the Regolith project root. If config.json defines packs.behaviorPack, the local behavior-pack root follows that configured path. The sourceEntry path is resolved relative to this directory."
-    },
-    "sourceEntry": {
-      "type": "string",
-      "default": "main.ts",
-      "description": "Primary script entry file relative to sourceDir under the Regolith project root. Supported extensions are .ts, .mts, .cts, .js, .mjs, and .cjs. The emitted JavaScript path is derived automatically by changing the extension to .js."
-    },
-    "keepSource": {
-      "type": "boolean",
-      "default": false,
-      "description": "Keeps the source directory after compilation. Temporary build output is always written under .regolith/tmp/BP/scripts. Local sourceDir validation still follows the configured behavior-pack path from config.json when packs.behaviorPack is defined."
-    },
-    "enableDebugger": {
-      "type": "boolean",
-      "default": false,
-      "description": "Enables sourcemaps, injects runtime error mapping into the compiled entry file, and creates or replaces the minecraft-js launch configuration in .vscode/launch.json using launch schema version 0.3.0. Requires debuggerProfile so debugger paths can be resolved from a specific Regolith profile. Debugger support is currently available only on Windows. Does not support minified builds because Minecraft runtime stack traces do not include generated columns."
-    },
-    "debuggerProfile": {
-      "type": "string",
-      "description": "Regolith profile name used for debugger path resolution. When enableDebugger is true, set this to the same profile that contains the active tscompile filter entry. That profile must exist in config.json and define an export object. Debugger support is currently available only on Windows."
-    },
-    "disableManifestModification": {
-      "type": "boolean",
-      "default": false,
-      "description": "Disables dependency and script-module updates inside the manifest."
-    }
-  },
-  "allOf": [
-    {
-      "anyOf": [
-        {
-          "required": [
-            "moduleUUID"
-          ]
-        },
-        {
-          "required": [
-            "disableManifestModification"
-          ],
-          "properties": {
-            "disableManifestModification": {
-              "const": true
-            }
-          },
-          "anyOf": [
-            {
-              "properties": {
-                "enableDebugger": {
-                  "const": false
-                }
-              }
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "tscompile",
+    "type": "object",
+    "properties": {
+        "buildOptions": {
+            "type": "object",
+            "default": {
+                "bundle": true,
+                "minify": true
             },
-            {
-              "not": {
-                "required": [
-                  "enableDebugger"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "required": [
-        "sourceEntry"
-      ]
-    },
-    {
-      "if": {
-        "properties": {
-          "enableDebugger": {
-            "const": true
-          }
+            "additionalProperties": true,
+            "properties": {
+                "entryPoints": false
+            },
+            "description": "Additional esbuild build options. The filter defaults target to ES2020 and format to ESM. Bundled builds use sourceDir/sourceEntry as the only entry point. Non-bundled builds compile all TypeScript and JavaScript source files under sourceDir. CommonJS syntax and json imports are only supported when bundling is enabled, and non-bundled usage causes an error."
         },
-        "required": [
-          "enableDebugger"
-        ]
-      },
-      "then": {
-        "required": [
-          "debuggerProfile"
-        ]
-      },
-      "else": {
-        "not": {
-          "required": [
-            "debuggerProfile"
-          ]
+        "modules": {
+            "type": "array",
+            "default": [
+                "@minecraft/server@2.0.0"
+            ],
+            "description": "Scripting module dependencies to inject into the manifest and exclude from bundling.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "pattern": "^@minecraft\\/[A-Za-z0-9-]+@(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?$"
+            }
+        },
+        "moduleUUID": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "description": "UUID to place in the behavior pack scripting module and debugger launch config."
+        },
+        "sourceDir": {
+            "type": "string",
+            "default": "BP/scripts/src",
+            "description": "Project-relative source directory resolved from the Regolith project root. If config.json defines packs.behaviorPack, the local behavior-pack root follows that configured path. The sourceEntry path is resolved relative to this directory."
+        },
+        "sourceEntry": {
+            "type": "string",
+            "default": "main.ts",
+            "description": "Primary script entry file relative to sourceDir under the Regolith project root. Supported extensions are .ts, .mts, .cts, .js, .mjs, and .cjs. The emitted JavaScript path is derived automatically by changing the extension to .js."
+        },
+        "keepSource": {
+            "type": "boolean",
+            "default": false,
+            "description": "Keeps the source directory after compilation. Temporary build output is always written under .regolith/tmp/BP/scripts. Local sourceDir validation still follows the configured behavior-pack path from config.json when packs.behaviorPack is defined."
+        },
+        "enableDebugger": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables sourcemaps, injects runtime error mapping into the compiled entry file, and creates or replaces the minecraft-js launch configuration in .vscode/launch.json using launch schema version 0.3.0. Requires debuggerProfile so debugger paths can be resolved from a specific Regolith profile. Debugger support is currently available only on Windows. Does not support minified builds because Minecraft runtime stack traces do not include generated columns."
+        },
+        "debuggerProfile": {
+            "type": "string",
+            "description": "Regolith profile name used for debugger path resolution. When enableDebugger is true, set this to the same profile that contains the active tscompile filter entry. That profile must exist in config.json and define an export object. Debugger support is currently available only on Windows."
+        },
+        "disableManifestModification": {
+            "type": "boolean",
+            "default": false,
+            "description": "Disables dependency and script-module updates inside the manifest."
         }
-      }
-    }
-  ]
+    },
+    "allOf": [
+        {
+            "anyOf": [
+                {
+                    "required": [
+                        "moduleUUID"
+                    ]
+                },
+                {
+                    "required": [
+                        "disableManifestModification"
+                    ],
+                    "properties": {
+                        "disableManifestModification": {
+                            "const": true
+                        }
+                    },
+                    "anyOf": [
+                        {
+                            "properties": {
+                                "enableDebugger": {
+                                    "const": false
+                                }
+                            }
+                        },
+                        {
+                            "not": {
+                                "required": [
+                                    "enableDebugger"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "required": [
+                "sourceEntry"
+            ]
+        },
+        {
+            "if": {
+                "properties": {
+                    "enableDebugger": {
+                        "const": true
+                    }
+                },
+                "required": [
+                    "enableDebugger"
+                ]
+            },
+            "then": {
+                "required": [
+                    "debuggerProfile"
+                ]
+            },
+            "else": {
+                "not": {
+                    "required": [
+                        "debuggerProfile"
+                    ]
+                }
+            }
+        }
+    ]
 }

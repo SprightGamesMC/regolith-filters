@@ -1,0 +1,11 @@
+{
+    "description": "Reference filter that demonstrates repository conventions.",
+    "filters": [
+        {
+            "name": "Example",
+            "runWith": "nodejs",
+            "script": "./dest/Main.js",
+            "requirements": "."
+        }
+    ]
+}

@@ -1,13 +1,23 @@
 {
-  "name": "tscompile",
-  "version": "1.0.0",
-  "description": "Regolith filter for compiling TypeScript in the behavior pack",
-  "license": "MIT",
-  "main": "./Main.js",
-  "dependencies": {
-    "esbuild": "^0.28.0",
-    "glob": "^13.0.6",
-    "jsonc-parser": "^3.3.1",
-    "source-map": "^0.7.6"
-  }
+    "name": "tscompile",
+    "version": "1.0.1",
+    "author": "Spright",
+    "description": "Regolith filter for compiling TypeScript in the behavior pack",
+    "license": "MIT",
+    "main": "./dest/Main.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch",
+        "test": "node --import tsx --test \"tests/**/*.test.ts\""
+    },
+    "dependencies": {
+        "comment-json": "^4.6.2",
+        "esbuild": "^0.28.0",
+        "glob": "^13.0.6",
+        "source-map": "^0.7.6"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.0",
+        "typescript": "^5.7.0"
+    }
 }

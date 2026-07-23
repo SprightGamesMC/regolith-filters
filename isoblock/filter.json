@@ -1,0 +1,11 @@
+{
+    "description": "Generates isometric images of Minecraft Bedrock Edition blocks.",
+    "filters": [
+        {
+            "name": "Generate isometric images of blocks in the behavior pack",
+            "runWith": "nodejs",
+            "script": "./dest/Main.js",
+            "requirements": "."
+        }
+    ]
+}
