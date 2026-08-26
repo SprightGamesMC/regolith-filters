@@ -5,7 +5,7 @@
     "private": true,
     "license": "MIT",
     "scripts": {
-        "build": "npm run build --prefix brarchive && npm run build --prefix example && npm run build --prefix isoblock && npm run build --prefix packager && npm run build --prefix tscompile",
+        "build": "npm run build --prefix brarchive && npm run build --prefix example && npm run build --prefix isoblock && npm run build --prefix packager && npm run build --prefix texture_list && npm run build --prefix tscompile",
         "fmt": "prettier --write . && eslint . --fix",
         "lint": "prettier --check . && eslint .",
         "test": "node --import tsx --test \"**/tests/**/*.test.ts\"",

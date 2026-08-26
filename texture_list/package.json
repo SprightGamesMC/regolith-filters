@@ -1,0 +1,19 @@
+{
+    "name": "texture_list",
+    "version": "1.0.0",
+    "author": "Spright",
+    "description": "Regolith filter that generates texture_list.json from resource pack textures",
+    "license": "MIT",
+    "main": "./dest/Main.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch"
+    },
+    "dependencies": {
+        "comment-json": "^4.6.2"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.0",
+        "typescript": "^5.7.0"
+    }
+}

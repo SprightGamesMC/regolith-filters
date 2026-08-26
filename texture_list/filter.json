@@ -1,0 +1,11 @@
+{
+    "description": "Generates texture_list.json from the resource pack textures.",
+    "filters": [
+        {
+            "name": "Texture List",
+            "runWith": "nodejs",
+            "script": "./dest/Main.js",
+            "requirements": "."
+        }
+    ]
+}
