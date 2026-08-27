@@ -21,8 +21,8 @@ The filter:
 - reads every `*.texture_set.json` and drops files named by a `normal`, `heightmap`, `metalness_emissive_roughness`, or
   `metalness_emissive_roughness_subsurface` layer
 - keeps a file when some texture set also names it as a `color` layer, or when no set names it at all
-- also lists images under `subpacks/<name>/textures`, with paths relative to the subpack root
 - writes the sorted list as JSON without file extensions to `textures/texture_list.json`
+- repeats this for each `subpacks/<name>`, writing its own `textures/texture_list.json` from that subpack's textures only
 
 Layer values that are arrays or `#` hex strings are colors, not files, and are ignored. A malformed texture set stops the run with an error
 naming the file.
@@ -32,6 +32,10 @@ naming the file.
 This filter has no settings.
 
 ## Changelog
+
+### 1.0.1
+
+- Write a separate `texture_list.json` for each subpack from its own textures only. The main pack list no longer includes subpack textures.
 
 ### 1.0.0
 

@@ -49,20 +49,12 @@ class TextureListFilter {
         }
     }
     /**
-     * Builds the list and writes it to the output file.
+     * Writes one texture list for the pack and one for each subpack, each from its own textures only.
      */
     run() {
-        TextureListWriter_1.default.write(path_1.default.resolve(this.packRoot, TextureListFilter.OUTPUT_FILE), this.collect());
-    }
-    /**
-     * Collects the texture list for the pack and each subpack.
-     *
-     * @returns Sorted texture list paths.
-     */
-    collect() {
-        const roots = [this.packRoot, ...this.findSubpacks()];
-        const list = roots.flatMap((root) => this.collectPack(root));
-        return [...new Set(list)].sort();
+        for (const root of [this.packRoot, ...this.findSubpacks()]) {
+            TextureListWriter_1.default.write(path_1.default.resolve(root, TextureListFilter.OUTPUT_FILE), this.collectPack(root));
+        }
     }
     /**
      * Collects the texture list for one pack root.
