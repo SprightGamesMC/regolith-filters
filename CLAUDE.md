@@ -124,8 +124,8 @@ Compiler and lint rules live in `tsconfig.global.json` and `eslint.config.mjs`. 
 
 ## Commits
 
-- Format: `<TYPE> | <TASK> | <Summary>`, as in `ADD | EXAMPLE-123 | Add <Feature>`. Leave out `<TASK> | ` when the commit has no
-  associated task. `<Summary>` is in the imperative mood. `<TYPE>` is one of these values.
+- Format: `<TYPE> | <TASK> | <Summary>`, as in `ADD | EXAMPLE-123 | Add <Feature>`. Leave out `<TASK> | ` when the commit has no associated
+  task. `<Summary>` is in the imperative mood. `<TYPE>` is one of these values.
     - `ADD` is for a new filter or feature.
     - `CHANGE` is for different behavior or output that users notice.
     - `FIX` is for something broken that now works.
