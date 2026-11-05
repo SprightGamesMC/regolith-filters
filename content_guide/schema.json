@@ -1,0 +1,194 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "content_guide",
+    "type": "object",
+    "properties": {
+        "content_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Title on the guide and in the file name."
+        },
+        "content_type": {
+            "enum": [
+                "addon",
+                "world",
+                "mash_up",
+                "texture_pack"
+            ],
+            "description": "Sets the Add-On and map checks."
+        },
+        "content_version": {
+            "type": "array",
+            "items": {
+                "type": "integer",
+                "minimum": 0
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "Version on the guide and in the file name. The changelog needs a release for it."
+        },
+        "creator_team_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Creator team name on the guide cover. Omitted by default."
+        },
+        "partner_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Partner name on the guide cover. Omitted by default."
+        },
+        "output_path": {
+            "type": "string",
+            "minLength": 1,
+            "default": "build/content_guide",
+            "description": "Output folder relative to the project. It must stay inside the project root."
+        },
+        "strict": {
+            "type": "boolean",
+            "default": true,
+            "description": "When true, errors stop the run. When false, they print and the files are written with TODO text."
+        },
+        "auto_blank_optional_notes": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, notes start as [] for sounds, generated spawn eggs, and vanilla items that only gain a recipe."
+        },
+        "style": {
+            "type": "object",
+            "properties": {
+                "colors": {
+                    "type": "object",
+                    "properties": {
+                        "primary": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "primary_dark": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "primary_light": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "on_primary": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "surface": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "surface_soft": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "surface_line": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "text": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        },
+                        "text_muted": {
+                            "type": "string",
+                            "pattern": "^#[0-9a-fA-F]{6}$"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "wordmark": {
+                    "type": "string",
+                    "pattern": "\\.([sS][vV][gG]|[pP][nN][gG]|[jJ][pP][gG]|[jJ][pP][eE][gG])$",
+                    "description": "File inside data/content_guide, at the cover top. No word mark by default, which shows the team name."
+                },
+                "logo": {
+                    "type": "string",
+                    "pattern": "\\.([sS][vV][gG]|[pP][nN][gG]|[jJ][pP][gG]|[jJ][pP][eE][gG])$",
+                    "description": "File inside data/content_guide, in the footer of each page. No logo by default."
+                },
+                "fonts": {
+                    "type": "object",
+                    "properties": {
+                        "brand": {
+                            "type": "object",
+                            "description": "Used for titles. Poppins SemiBold by default.",
+                            "properties": {
+                                "file": {
+                                    "type": "string",
+                                    "pattern": "\\.([tT][tT][fF]|[oO][tT][fF]|[wW][oO][fF][fF])$",
+                                    "description": "File inside data/content_guide."
+                                },
+                                "uppercase": {
+                                    "type": "boolean",
+                                    "default": false,
+                                    "description": "Show all titles in capitals."
+                                },
+                                "letter_spacing": {
+                                    "type": "number",
+                                    "minimum": -0.1,
+                                    "maximum": 0.5,
+                                    "default": 0,
+                                    "description": "Space between letters as a share of the text size."
+                                },
+                                "line_height": {
+                                    "type": "number",
+                                    "minimum": 0.7,
+                                    "maximum": 2,
+                                    "description": "Space between lines of a title as a share of the text size. By default it follows uppercase."
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "secondary": {
+                            "type": "object",
+                            "description": "Used for all other text. Inter by default.",
+                            "properties": {
+                                "regular": {
+                                    "type": "string",
+                                    "pattern": "\\.([tT][tT][fF]|[oO][tT][fF]|[wW][oO][fF][fF])$",
+                                    "description": "File inside data/content_guide."
+                                },
+                                "bold": {
+                                    "type": "string",
+                                    "pattern": "\\.([tT][tT][fF]|[oO][tT][fF]|[wW][oO][fF][fF])$",
+                                    "description": "File inside data/content_guide. Uses regular when omitted."
+                                },
+                                "letter_spacing": {
+                                    "type": "number",
+                                    "minimum": -0.1,
+                                    "maximum": 0.5,
+                                    "default": 0,
+                                    "description": "Space between letters as a share of the text size."
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "monospace": {
+                            "type": "object",
+                            "description": "Used for coordinates, commands, and identifiers. JetBrains Mono by default.",
+                            "properties": {
+                                "file": {
+                                    "type": "string",
+                                    "pattern": "\\.([tT][tT][fF]|[oO][tT][fF]|[wW][oO][fF][fF])$",
+                                    "description": "File inside data/content_guide."
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "description": "Colors, logos, and fonts. Each part replaces only its own default."
+        }
+    },
+    "required": [
+        "content_name",
+        "content_type",
+        "content_version"
+    ],
+    "additionalProperties": false
+}

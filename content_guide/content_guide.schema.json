@@ -1,0 +1,249 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "content_guide_data",
+    "description": "Guide data in data/content_guide/content_guide.json. null means not written, which is an error.",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "completion_guide": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "description": "Steps to finish the content. Use [] when there are no steps.",
+            "items": {
+                "$ref": "#/definitions/step"
+            }
+        },
+        "navigation": {
+            "type": "object",
+            "properties": {
+                "general": {
+                    "$ref": "#/definitions/section"
+                },
+                "key_locations": {
+                    "$ref": "#/definitions/section"
+                },
+                "end_portal": {
+                    "$ref": "#/definitions/section",
+                    "description": "Worlds and mash-ups only. Each end portal with its coordinates. Use [] when the map has none."
+                },
+                "landmarks": {
+                    "$ref": "#/definitions/section"
+                },
+                "containers": {
+                    "$ref": "#/definitions/section"
+                },
+                "hidden_elements": {
+                    "$ref": "#/definitions/section"
+                }
+            },
+            "additionalProperties": false
+        },
+        "characters": {
+            "$ref": "#/definitions/section",
+            "description": "Each character needs locations."
+        },
+        "gameplay": {
+            "type": "object",
+            "properties": {
+                "mechanics": {
+                    "$ref": "#/definitions/section"
+                },
+                "user_interface": {
+                    "$ref": "#/definitions/section"
+                },
+                "key_bindings": {
+                    "$ref": "#/definitions/section"
+                }
+            },
+            "additionalProperties": false
+        },
+        "vanilla_changes": {
+            "$ref": "#/definitions/section",
+            "description": "Listed above the generated vanilla edits."
+        },
+        "items": {
+            "$ref": "#/definitions/content"
+        },
+        "entities": {
+            "$ref": "#/definitions/content"
+        },
+        "sounds": {
+            "$ref": "#/definitions/content"
+        },
+        "changelog": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "version": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "date": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "changes": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/definitions/entry"
+                        }
+                    }
+                },
+                "required": [
+                    "version",
+                    "changes"
+                ],
+                "additionalProperties": false
+            }
+        }
+    },
+    "required": [
+        "completion_guide",
+        "navigation",
+        "characters",
+        "gameplay",
+        "vanilla_changes",
+        "changelog"
+    ],
+    "additionalProperties": false,
+    "definitions": {
+        "location": {
+            "type": "string",
+            "pattern": "^-?\\d+(\\.\\d+)?( -?\\d+(\\.\\d+)?){2}$",
+            "description": "Coordinates with spaces, such as 5 70 5."
+        },
+        "entry": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "minLength": 1
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "text": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "locations": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/location"
+                            }
+                        },
+                        "notes": {
+                            "$ref": "#/definitions/entries"
+                        }
+                    },
+                    "required": [
+                        "text"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "entries": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/entry"
+            }
+        },
+        "section": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "description": "Use [] when the section does not apply.",
+            "items": {
+                "$ref": "#/definitions/entry"
+            }
+        },
+        "step": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "minLength": 1
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "text": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "locations": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/location"
+                            }
+                        },
+                        "notes": {
+                            "$ref": "#/definitions/entries"
+                        },
+                        "requirement": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "skip": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How to get past the step without doing it, such as /give for its reward."
+                        },
+                        "return": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How to go back to the step, such as a reset function. Defaults to /tp to the first location."
+                        }
+                    },
+                    "required": [
+                        "text"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "content": {
+            "type": "object",
+            "description": "Entries by identifier. The filter adds and removes them to match the packs.",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "player_accessible": {
+                        "type": "boolean"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    },
+                    "notes": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "Use [] when there is nothing to add.",
+                        "items": {
+                            "$ref": "#/definitions/entry"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    }
+}

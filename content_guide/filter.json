@@ -1,0 +1,11 @@
+{
+    "description": "Generates the Marketplace content guide from guide data and the built packs.",
+    "filters": [
+        {
+            "name": "Content Guide",
+            "runWith": "nodejs",
+            "script": "./dest/Main.js",
+            "requirements": "."
+        }
+    ]
+}
