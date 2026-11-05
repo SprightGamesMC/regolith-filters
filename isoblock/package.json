@@ -1,6 +1,6 @@
 {
     "name": "isoblock",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "Spright",
     "description": "Regolith filter for generating isometric images of blocks in the behavior pack",
     "license": "MIT",
@@ -24,5 +24,8 @@
         "@types/pngjs": "^6.0.5",
         "@types/three": "^0.125.3",
         "typescript": "^5.7.0"
+    },
+    "allowScripts": {
+        "@kmamal/gl": true
     }
 }

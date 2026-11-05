@@ -59,6 +59,11 @@ The filter:
 
 ## Changelog
 
+### 1.0.3
+
+- Approved the install script of `@kmamal/gl` in `allowScripts`, so npm 11 no longer warns during install and later npm versions do not skip
+  the download of its native binary.
+
 ### 1.0.2
 
 - Replaced the unmaintained `gl` package with the maintained `@kmamal/gl` fork to remove deprecated dependencies during install.
