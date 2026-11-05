@@ -1,6 +1,6 @@
 {
     "name": "packager",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Spright",
     "description": "Regolith filter for packaging validated Minecraft Marketplace submissions",
     "license": "MIT",
@@ -22,5 +22,8 @@
         "@types/archiver": "^6.0.3",
         "@types/node": "^22.10.0",
         "typescript": "^5.7.0"
+    },
+    "allowScripts": {
+        "sharp": true
     }
 }

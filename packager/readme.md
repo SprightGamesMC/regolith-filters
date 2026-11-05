@@ -125,6 +125,10 @@ The filter:
 
 ## Changelog
 
+### 1.0.2
+
+- Approved the install script of `sharp` in `allowScripts`, so npm 11 no longer warns during install.
+
 ### 1.0.1
 
 - Refactored filter.
