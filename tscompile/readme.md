@@ -92,6 +92,10 @@ module.exports = {
 
 ## Changelog
 
+### 1.0.2
+
+- Approved the install script of `esbuild` in `allowScripts`, so npm 11 no longer warns during install.
+
 ### 1.0.1
 
 - Refactored filter.
