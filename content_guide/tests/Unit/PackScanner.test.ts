@@ -179,7 +179,9 @@ describe("PackScanner.scan", () => {
         const { items } = scan();
 
         assert.deepEqual(factTexts(find(items, "test:gem")), ["Cannot be crafted", "Dropped by Gem Ore"]);
-        assert.deepEqual(factTexts(find(items, "minecraft:slime_ball")), ["Crafted in Crafting Table from 1 Shiny Gem, makes 2"]);
+        assert.deepEqual(factTexts(find(items, "minecraft:slime_ball")), [
+            "Crafted in Inventory or Crafting Table from 1 Shiny Gem, makes 2",
+        ]);
         assert.equal(find(items, "minecraft:slime_ball").name, "Slime Ball");
     });
 

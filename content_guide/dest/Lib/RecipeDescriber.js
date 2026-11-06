@@ -23,6 +23,16 @@ class RecipeDescriber {
     static NO_RESULT_TYPE = "minecraft:recipe_smithing_trim";
     /** Key in a recipe file that is not a recipe. */
     static FORMAT_KEY = "format_version";
+    /** Tag of crafting table recipes. The inventory crafting grid also uses them when they fit in it. */
+    static CRAFTING_TABLE_TAG = "crafting_table";
+    /** Width and height of the inventory crafting grid. */
+    static INVENTORY_GRID_SIZE = 2;
+    /** Station name of the inventory crafting grid. */
+    static INVENTORY_STATION = "Inventory";
+    /** Width of the crafting table grid. */
+    static TABLE_GRID_SIZE = 3;
+    /** Symbols for shapeless ingredients when no letter of the name is free. */
+    static FALLBACK_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /** Finds the display name of an item. */
     nameOf;
     /**
@@ -61,7 +71,7 @@ class RecipeDescriber {
             return this.finish(shaped.result, this.describeShaped(shaped), this.createGrid(shaped));
         }
         if (shapeless) {
-            return this.finish(shapeless.result, this.describeShapeless(shapeless));
+            return this.finish(shapeless.result, this.describeShapeless(shapeless), this.createShapelessGrid(shapeless));
         }
         if (furnace) {
             return this.finish(furnace.output, `Smelted in ${this.describeTags(furnace)} from ${this.ingredientName(furnace.input)}`);
@@ -123,6 +133,62 @@ class RecipeDescriber {
             })),
             makes: this.findResultCount(recipe.result),
         };
+    }
+    /**
+     * Creates the crafting grid of a shapeless recipe. The ingredients fill the slots in order, as in the recipe book.
+     *
+     * @param recipe - Recipe body.
+     *
+     * @returns RecipeGrid, or `null` when it is not a crafting table recipe or its ingredients do not fit in one.
+     */
+    createShapelessGrid(recipe) {
+        const slotNames = this.listSlotNames(recipe);
+        const tableSize = RecipeDescriber.TABLE_GRID_SIZE;
+        const isTableRecipe = Array.isArray(recipe.tags) && recipe.tags.includes(RecipeDescriber.CRAFTING_TABLE_TAG);
+        if (!isTableRecipe || slotNames.length === 0 || slotNames.length > tableSize * tableSize) {
+            return null;
+        }
+        const legend = [];
+        for (const name of new Set(slotNames)) {
+            legend.push({ symbol: this.chooseSymbol(name, legend), name });
+        }
+        const symbols = slotNames.map((name) => legend.find((entry) => entry.name === name)?.symbol ?? " ");
+        const width = this.fitsInventoryGrid(recipe) ? RecipeDescriber.INVENTORY_GRID_SIZE : tableSize;
+        const rows = [];
+        for (let start = 0; start < symbols.length; start += width) {
+            rows.push(symbols.slice(start, start + width).join(""));
+        }
+        return { station: this.describeTags(recipe), rows, legend, makes: this.findResultCount(recipe.result) };
+    }
+    /**
+     * Lists the ingredient name of each slot of a shapeless recipe. An ingredient with a count uses that many slots.
+     *
+     * @param recipe - Recipe body.
+     *
+     * @returns Ingredient names.
+     */
+    listSlotNames(recipe) {
+        if (recipe.ingredients === undefined) {
+            return [];
+        }
+        const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [recipe.ingredients];
+        return ingredients.flatMap((ingredient) => {
+            const count = ingredient?.count;
+            return Array.from({ length: typeof count === "number" ? count : 1 }, () => this.ingredientName(ingredient));
+        });
+    }
+    /**
+     * Chooses a grid symbol for an ingredient. It uses the first free letter of the name.
+     *
+     * @param name - Ingredient name.
+     * @param legend - Symbols that are already used.
+     *
+     * @returns Symbol.
+     */
+    chooseSymbol(name, legend) {
+        const used = new Set(legend.map((entry) => entry.symbol));
+        const letters = [...name.toUpperCase().replace(/[^A-Z]/g, ""), ...RecipeDescriber.FALLBACK_SYMBOLS];
+        return letters.find((letter) => !used.has(letter)) ?? "?";
     }
     /**
      * Finds the count of a result that makes more than one item.
@@ -191,7 +257,28 @@ class RecipeDescriber {
      */
     describeTags(recipe) {
         const tags = Array.isArray(recipe.tags) ? recipe.tags.filter((tag) => typeof tag === "string") : [];
-        return tags.length > 0 ? tags.map((tag) => Identifiers_1.default.humanize(tag)).join(", ") : "Unknown Station";
+        if (tags.length === 0) {
+            return "Unknown Station";
+        }
+        const stations = tags.map((tag) => Identifiers_1.default.humanize(tag)).join(", ");
+        const isInventoryRecipe = tags.includes(RecipeDescriber.CRAFTING_TABLE_TAG) && this.fitsInventoryGrid(recipe);
+        return isInventoryRecipe ? `${RecipeDescriber.INVENTORY_STATION} or ${stations}` : stations;
+    }
+    /**
+     * Checks whether a crafting recipe fits in the inventory crafting grid.
+     *
+     * @param recipe - Recipe body.
+     *
+     * @returns `true` when the pattern or the ingredients fit in the grid.
+     */
+    fitsInventoryGrid(recipe) {
+        const size = RecipeDescriber.INVENTORY_GRID_SIZE;
+        if (Array.isArray(recipe.pattern)) {
+            const rows = recipe.pattern.map((row) => String(row));
+            return rows.length <= size && rows.every((row) => row.length <= size);
+        }
+        const slotCount = this.listSlotNames(recipe).length;
+        return slotCount > 0 && slotCount <= size * size;
     }
     /**
      * Writes the name of one ingredient.

@@ -77,7 +77,7 @@ export interface GuideData {
     changelog: ChangelogRelease[] | null;
 }
 
-/** Crafting grid of a shaped recipe. */
+/** Crafting grid of a crafting table recipe. */
 export interface RecipeGrid {
     station: string;
     rows: string[];
@@ -85,7 +85,7 @@ export interface RecipeGrid {
     makes: number | null;
 }
 
-/** One generated fact. A tag is a short label, and a shaped recipe also has a crafting grid. */
+/** One generated fact. A tag is a short label, and a crafting table recipe also has a crafting grid. */
 export interface CatalogFact {
     text: string;
     isTag: boolean;

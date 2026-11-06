@@ -41,7 +41,7 @@ class PdfRecipeGrid {
     /**
      * Draws one recipe.
      *
-     * @param recipe - Shaped recipe.
+     * @param recipe - Crafting grid.
      * @param left - Left position.
      * @param width - Available width.
      */
@@ -94,7 +94,7 @@ class PdfRecipeGrid {
     /**
      * Draws the slots of the grid.
      *
-     * @param recipe - Shaped recipe.
+     * @param recipe - Crafting grid.
      * @param left - Left position.
      * @param top - Top position.
      */

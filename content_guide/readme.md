@@ -117,6 +117,11 @@ Each part replaces only its own default. Files are relative to `data/content_gui
 
 ## Changelog
 
+### 1.0.1
+
+- Crafting table recipes that fit in 2 by 2 now say "Inventory or Crafting Table".
+- Shapeless crafting table recipes now show a crafting grid in the PDF.
+
 ### 1.0.0
 
 - Initial release.
