@@ -233,19 +233,17 @@ export default class RecipeDescriber {
     }
 
     /**
-     * Finds the count of a result that makes more than one item.
+     * Finds the count of the crafted item when the recipe makes more than one.
      *
      * @param rawResults - Raw recipe result value.
      *
      * @returns Count, or `null` when the recipe makes one item.
      */
     private findResultCount(rawResults: unknown): number | null {
-        const counts = (Array.isArray(rawResults) ? rawResults : [rawResults]).map(
-            (result) => (result as { count?: unknown } | null)?.count
-        );
-        const count = counts.find((value) => typeof value === "number" && value > 1);
+        const firstResult: unknown = Array.isArray(rawResults) ? rawResults[0] : rawResults;
+        const count = (firstResult as { count?: unknown } | null)?.count;
 
-        return typeof count === "number" ? count : null;
+        return typeof count === "number" && count > 1 ? count : null;
     }
 
     /**
@@ -272,7 +270,7 @@ export default class RecipeDescriber {
     }
 
     /**
-     * Creates the description from the recipe text and its results.
+     * Creates the description from the recipe text and its results. The first result is the crafted item.
      *
      * @param rawResults - Raw recipe result value.
      * @param text - Recipe text without the result count.
@@ -281,15 +279,20 @@ export default class RecipeDescriber {
      * @returns RecipeDescription, or `null` when the recipe has no result.
      */
     private finish(rawResults: unknown, text: string, grid: RecipeGrid | null = null): RecipeDescription | null {
-        const results = (Array.isArray(rawResults) ? rawResults : [rawResults]).flatMap((result) => this.resultIdentifier(result));
+        const [result, ...returnedItems] = (Array.isArray(rawResults) ? rawResults : [rawResults]).flatMap((rawResult) =>
+            this.resultIdentifier(rawResult)
+        );
 
-        if (results.length === 0) {
+        if (result === undefined) {
             return null;
         }
 
         const count = this.findResultCount(rawResults);
+        const countText = count === null ? "" : `, makes ${count}`;
+        // Minecraft gives later results to the player as well, such as a container that an ingredient used
+        const returnText = returnedItems.length === 0 ? "" : `, returns ${returnedItems.map((item) => this.nameOf(item)).join(", ")}`;
 
-        return { results, text: count === null ? text : `${text}, makes ${count}`, grid };
+        return { result, text: `${text}${countText}${returnText}`, grid };
     }
 
     /**

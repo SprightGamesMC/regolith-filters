@@ -111,9 +111,7 @@ export default class PackScanner {
             }
 
             if (description) {
-                for (const result of description.results) {
-                    recipes.set(result, [...(recipes.get(result) ?? []), description]);
-                }
+                recipes.set(description.result, [...(recipes.get(description.result) ?? []), description]);
             } else if (!(RecipeDescriber.NO_RESULT_TYPE in file.data)) {
                 this.reader.reportSkipped(file.relativePath, "Has no recipe with a valid result.", "items");
             }
@@ -168,7 +166,7 @@ export default class PackScanner {
     }
 
     /**
-     * Creates the item entries, including vanilla items that gain a recipe.
+     * Creates the item entries. A vanilla item that only gains a recipe is not an entry, because the vanilla edits list its recipes.
      *
      * @param definitions - Items, blocks, and spawn eggs.
      * @param recipes - Recipe text by result identifier.
@@ -184,14 +182,14 @@ export default class PackScanner {
         trades: Map<string, Set<string>>
     ): CatalogEntry[] {
         const defined = new Map(definitions.map((definition) => [definition.identifier, definition]));
-        const identifiers = new Set([...defined.keys(), ...recipes.keys()]);
+        const recipeOnly = [...recipes.keys()].filter((identifier) => !defined.has(identifier) && !Identifiers.isVanilla(identifier));
+        const identifiers = new Set([...defined.keys(), ...recipeOnly]);
 
         return [...identifiers].map((identifier) => {
             const definition = defined.get(identifier);
             const itemRecipes = recipes.get(identifier) ?? [];
             const itemDrops = [...(drops.get(identifier) ?? [])];
             const itemTrades = [...(trades.get(identifier) ?? [])];
-            const isVanillaRecipeOnly = !definition && Identifiers.isVanilla(identifier);
             const facts: CatalogFact[] =
                 itemRecipes.length > 0
                     ? itemRecipes.map((recipe) => ({ text: recipe.text, isTag: false, recipe: recipe.grid }))
@@ -206,7 +204,7 @@ export default class PackScanner {
             }
 
             return {
-                ...(definition?.isGeneratedEgg || isVanillaRecipeOnly ? { isNotesOptional: true } : {}),
+                ...(definition?.isGeneratedEgg ? { isNotesOptional: true } : {}),
                 identifier,
                 name: this.nameOf(identifier),
                 playerAccessible:
@@ -277,7 +275,11 @@ export default class PackScanner {
                 .filter(isVanilla)
                 .map((identifier) => `Edits the vanilla entity ${describe(identifier)}`),
             ...[...items.keys()].filter(isVanilla).map((identifier) => `Edits the vanilla item or block ${describe(identifier)}`),
-            ...[...recipes.keys()].filter(isVanilla).map((identifier) => `Adds a recipe for ${describe(identifier)}`),
+            ...[...recipes]
+                .filter(([identifier]) => isVanilla(identifier))
+                .flatMap(([identifier, itemRecipes]) =>
+                    itemRecipes.map((recipe) => `Adds a recipe for ${describe(identifier)}. ${recipe.text}`)
+                ),
         ];
     }
 

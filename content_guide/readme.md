@@ -65,19 +65,22 @@ Each run updates `items`, `entities`, and `sounds` in the project file and print
 Names, recipes, and generated tags come from the packs on each run. `name`, `player_accessible`, and `tags` replace what the filter
 generates.
 
+A vanilla item that only gains a recipe has no entry in `items`. The generated vanilla edits state its recipes. The first result of a recipe
+is the item that it crafts. The recipe text lists later results as returned items.
+
 ## Settings
 
-| Setting                     | Type                                                | Default               | Description                                                                                                   |
-| --------------------------- | --------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `content_name`              | string                                              | Required              | Title on the guide and in the file name.                                                                      |
-| `content_type`              | `"addon" \| "world" \| "mash_up" \| "texture_pack"` | Required              | Sets the Add-On and map checks.                                                                               |
-| `content_version`           | `[int, int, int]`                                   | Required              | Version on the guide and in the file name. The changelog needs a release for it.                              |
-| `creator_team_name`         | string                                              | None                  | Creator team name on the guide cover.                                                                         |
-| `partner_name`              | string                                              | None                  | Partner name on the guide cover.                                                                              |
-| `output_path`               | string                                              | `build/content_guide` | Output folder relative to the project. It must stay inside the project root.                                  |
-| `strict`                    | boolean                                             | `true`                | When `true`, errors stop the run. When `false`, they print and the files are written with `TODO` text.        |
-| `auto_blank_optional_notes` | boolean                                             | `false`               | When `true`, notes start as `[]` for sounds, generated spawn eggs, and vanilla items that only gain a recipe. |
-| `style`                     | object                                              | Default style         | Colors, logos, and fonts. See below.                                                                          |
+| Setting                     | Type                                                | Default               | Description                                                                                            |
+| --------------------------- | --------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------ |
+| `content_name`              | string                                              | Required              | Title on the guide and in the file name.                                                               |
+| `content_type`              | `"addon" \| "world" \| "mash_up" \| "texture_pack"` | Required              | Sets the Add-On and map checks.                                                                        |
+| `content_version`           | `[int, int, int]`                                   | Required              | Version on the guide and in the file name. The changelog needs a release for it.                       |
+| `creator_team_name`         | string                                              | None                  | Creator team name on the guide cover.                                                                  |
+| `partner_name`              | string                                              | None                  | Partner name on the guide cover.                                                                       |
+| `output_path`               | string                                              | `build/content_guide` | Output folder relative to the project. It must stay inside the project root.                           |
+| `strict`                    | boolean                                             | `true`                | When `true`, errors stop the run. When `false`, they print and the files are written with `TODO` text. |
+| `auto_blank_optional_notes` | boolean                                             | `false`               | When `true`, notes start as `[]` for sounds and generated spawn eggs.                                  |
+| `style`                     | object                                              | Default style         | Colors, logos, and fonts. See below.                                                                   |
 
 #### Style
 
@@ -116,6 +119,11 @@ Each part replaces only its own default. Files are relative to `data/content_gui
 - Default fonts are Poppins, Inter, and JetBrains Mono, under the SIL Open Font License. They cover Latin text only.
 
 ## Changelog
+
+### 1.0.2
+
+- Vanilla items that only gain a recipe are no longer in the item list. The vanilla edits now state each of their recipes.
+- Only the first result of a recipe counts as the crafted item. Later results show in the recipe text as returned items.
 
 ### 1.0.1
 

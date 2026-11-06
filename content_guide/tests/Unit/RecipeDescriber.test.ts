@@ -17,7 +17,7 @@ describe("RecipeDescriber.describe", () => {
         });
 
         assert.deepEqual(description, {
-            results: ["test:rod"],
+            result: "test:rod",
             text: "Crafted in Crafting Table: pattern `A.A / .B.`, A = Gem, B = Stick, . = empty, makes 2",
             grid: {
                 station: "Crafting Table",
@@ -118,16 +118,21 @@ describe("RecipeDescriber.describe", () => {
 
         assert.equal(furnace?.text, "Smelted in Furnace, Blast Furnace from Ore");
         assert.equal(brewing?.text, "Brewed from Potion with Gem");
-        assert.deepEqual(brewing?.results, ["minecraft:potion_type"]);
+        assert.equal(brewing?.result, "minecraft:potion_type");
         assert.equal(smithing?.text, "Smithed in Smithing Table from Iron Sword, Gem, Template");
     });
 
-    test("reads array results and normalizes identifiers", () => {
+    test("uses the first array result as the crafted item and normalizes identifiers", () => {
         const description = describer.describe({
-            "minecraft:recipe_shapeless": { tags: ["crafting_table"], ingredients: "stick", result: [{ item: "test:a:1" }, { item: "b" }] },
+            "minecraft:recipe_shapeless": {
+                tags: ["stonecutter"],
+                ingredients: "stick",
+                result: [{ item: "test:a:1", count: 4 }, { item: "b", count: 2 }, { item: "c" }],
+            },
         });
 
-        assert.deepEqual(description?.results, ["test:a", "minecraft:b"]);
+        assert.equal(description?.result, "test:a");
+        assert.equal(description?.text, "Crafted in Stonecutter from 1 Stick, makes 4, returns B, C");
     });
 
     test("returns null without a recipe or result", () => {

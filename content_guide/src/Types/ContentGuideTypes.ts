@@ -120,9 +120,9 @@ export interface PackFile {
     data: Record<string, unknown>;
 }
 
-/** Results and readable text of one recipe. */
+/** Crafted item and readable text of one recipe. */
 export interface RecipeDescription {
-    results: string[];
+    result: string;
     text: string;
     grid: RecipeGrid | null;
 }

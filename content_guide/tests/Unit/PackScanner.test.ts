@@ -85,7 +85,7 @@ describe("PackScanner.scan", () => {
             .map((entry) => entry.identifier)
             .sort();
 
-        assert.deepEqual(optional, ["minecraft:slime_ball", "test:block.ore.break", "test:golem_spawn_egg"]);
+        assert.deepEqual(optional, ["test:block.ore.break", "test:golem_spawn_egg"]);
     });
 
     test("marks sections uncertain when a pack is absent", () => {
@@ -175,14 +175,30 @@ describe("PackScanner.scan", () => {
 
     test("records recipes, drops, and missing recipes as facts", () => {
         project.writePacks();
+        project.writeJson("BP/recipes/gem.json", {
+            "minecraft:recipe_shapeless": { tags: ["stonecutter"], ingredients: [{ item: "test:ore" }], result: "test:gem" },
+        });
 
         const { items } = scan();
 
-        assert.deepEqual(factTexts(find(items, "test:gem")), ["Cannot be crafted", "Dropped by Gem Ore"]);
-        assert.deepEqual(factTexts(find(items, "minecraft:slime_ball")), [
-            "Crafted in Inventory or Crafting Table from 1 Shiny Gem, makes 2",
-        ]);
-        assert.equal(find(items, "minecraft:slime_ball").name, "Slime Ball");
+        assert.deepEqual(factTexts(find(items, "test:gem")), ["Crafted in Stonecutter from 1 Gem Ore", "Dropped by Gem Ore"]);
+        assert.deepEqual(factTexts(find(items, "test:secret")), ["Cannot be crafted"]);
+    });
+
+    test("leaves out vanilla items that only gain a recipe or are returned by one", () => {
+        project.writePacks();
+        project.writeJson("BP/recipes/bucket.json", {
+            "minecraft:recipe_shapeless": {
+                tags: ["crafting_table"],
+                ingredients: [{ item: "test:gem" }, { item: "minecraft:water_bucket" }],
+                result: [{ item: "test:gem" }, { item: "minecraft:water_bucket" }],
+            },
+        });
+
+        const identifiers = scan().items.map((item) => item.identifier);
+
+        assert.equal(identifiers.includes("minecraft:slime_ball"), false);
+        assert.equal(identifiers.includes("minecraft:water_bucket"), false);
     });
 
     test("marks short facts as tags and keeps the crafting grid of a shaped recipe", () => {
@@ -269,7 +285,7 @@ describe("PackScanner.scan", () => {
 
         assert.deepEqual(scan().vanillaEdits, [
             "Edits the vanilla entity Cow (`minecraft:cow`)",
-            "Adds a recipe for Slime Ball (`minecraft:slime_ball`)",
+            "Adds a recipe for Slime Ball (`minecraft:slime_ball`). Crafted in Inventory or Crafting Table from 1 Shiny Gem, makes 2",
         ]);
     });
 
